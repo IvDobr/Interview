@@ -1,0 +1,18 @@
+@(message: String)
+
+@main("Авторизация пользователя") {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/signin.css")">
+
+    <div class="container">
+        <form class="form-signin" method="post" action="@routes.Secure.logInProc()">
+            <h2 class="form-signin-heading">Авторизация</h2>
+            <p class="text-danger" style="font-size: 150%;">@message</p>
+            <label for="inputLogin" class="sr-only">Логин</label>
+            <input type="text" id="inputLogin" name ="userLogin" class="form-control" placeholder="Логин" required autofocus>
+            <label for="inputPassword" class="sr-only">Пароль</label>
+            <input type="password" id="inputPassword" name="userPass" class="form-control" placeholder="Пароль" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>
+        </form>
+    </div>
+
+}
