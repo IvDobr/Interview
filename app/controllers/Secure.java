@@ -2,14 +2,13 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import models.User;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Crypto;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.auth;
-
-import play.Logger;
 
 public class Secure extends Controller {
 

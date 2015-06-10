@@ -50,7 +50,8 @@
         @if(q.getUserVariant) {
           <div class="@if(q.getManyVariants) {checkbox} else {radio}">
             <label>
-              <input type="@if(q.getManyVariants) {checkbox} else {radio}" name="@q.getQuestionId" id="userVar" value="userVar">
+              <input type="@if(q.getManyVariants) {checkbox} else {radio}" name="@q.getQuestionId" id="userVar" value="userVar"
+              @if(0 == q.getVariants.size()) {style="display: none;" checked}>
               <input type="text" class="form-control" id="3" placeholder="Свой вариант ответа" name="var_@q.getQuestionId">
             </label>
           </div>

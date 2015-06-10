@@ -39,10 +39,10 @@ public class API extends Controller {
 
             Ebean.save(interview);
 
-            Iterator<JsonNode> qestions = request.findPath("qestions").elements();
+            Iterator<JsonNode> questions = request.findPath("questions").elements();
 
-            while (qestions.hasNext()) {
-                JsonNode q = qestions.next();
+            while (questions.hasNext()) {
+                JsonNode q = questions.next();
                 try {
                     Question question = new Question(
                             q.findPath("question").textValue(),
@@ -137,10 +137,10 @@ public class API extends Controller {
 
             Ebean.save(interview);
 
-            Iterator<JsonNode> qestions = request.findPath("qestions").elements();
+            Iterator<JsonNode> questions = request.findPath("questions").elements();
 
-            while (qestions.hasNext()) {
-                JsonNode q = qestions.next();
+            while (questions.hasNext()) {
+                JsonNode q = questions.next();
                 try {
                     Question question = new Question(
                             q.findPath("question").textValue(),
@@ -332,8 +332,7 @@ public class API extends Controller {
             return badRequest(result);
         }
     }
-
-
+    
     public static Result jsRoutes() {
         response().setContentType("text/javascript");
         return ok(

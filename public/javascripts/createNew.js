@@ -39,14 +39,14 @@ var InterviewModel = function() {
             title: self.title(),
             description: self.description(),
             reqUserName: self.reqUserName(),
-            qestions: ko.toJS(self.questions)
+            questions: ko.toJS(self.questions)
         });
         jsRoutes.controllers.API.newInterviewJSON().ajax({
             dataType    : 'json',
             contentType : 'application/json; charset=utf-8',
             data        : dataJSON,
             success : function(result){
-                self.intURL("localhost:9000/interview/" + result.id)
+                self.intURL("localhost:9000/interview/" + result.id);
                 $('#created').modal('show');
             },
             error : function(result){
