@@ -3,7 +3,9 @@
 <script type="text/javascript" src ='@routes.Assets.at("javascripts/answersFeed.js")'></script>
 <param name="id" value="@id">
 
-<h1 class="page-header">@title <small>Всего: </small> <small data-bind="text: countAnswers"></small><small> | Показано на странице: </small>
+<h1 class="page-header">@title
+    <br>
+    <small>Всего: </small> <small data-bind="text: countAnswers"></small><small> | Показано на странице: </small>
     <small data-bind="text: answersList().length"></small></h1>
 
 @if(0 != id) {

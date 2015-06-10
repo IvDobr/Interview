@@ -11,7 +11,7 @@ public class Global extends GlobalSettings {
         //TimeZone.setDefault(TimeZone.getTimeZone("GMT+8")); //Задаем иркутский часовой пояс
 
         if (User.find.all().isEmpty()) { //проверяем, пустой ли список пользователей
-            User user = new User("user", "Тестовый", "Пользователь", "123"); //создаем экземпляр нового пользователя
+            User user = new User("user", "Тестовый", "Пользователь", "123", true); //создаем экземпляр нового пользователя
             try {
                 user.save(); //сохраняем его
                 System.out.println("DONE: Аккаунт пользователя создан!");

@@ -12,21 +12,25 @@ import views.html.index;
 @Security.Authenticated(Secured.class)
 public class Application extends Controller {
     
-    private static String getName() {
-        User current_user = User.find.byId(Crypto.decryptAES(session("current_user")));
-        return current_user.getUserFirstName() + " " + current_user.getUserLastName();
-    }
+    private static User user() {
+        return User.find.byId(Crypto.decryptAES(session("current_user")));
+    } 
 
     public static Result index() {
-        return ok(index.render(getName(), 1, null));
+        return ok(index.render(user(), 1, null));
     }
 
     public static Result seeAnswers(Integer id) {
-        if (0 == id) return ok(index.render(getName(), 2, null));
-        else return ok(index.render(getName(), 0, Ebean.find(Interview.class, id)));
+        if (0 == id) return ok(index.render(user(), 2, null));
+        else return ok(index.render(user(), 0, Ebean.find(Interview.class, id)));
     }
 
     public static Result createNew() {
-        return ok(index.render(getName(), 3, null));
+        return ok(index.render(user(), 3, null));
+    }
+
+    public static Result users() {
+        if (user().getIsAdmin()) return ok(index.render(user(), 4, null));
+        else return ok(index.render(user(), 1, null));
     }
 }

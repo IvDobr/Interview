@@ -1,4 +1,4 @@
-@(userName: String, nav: Int, interview: Interview)
+@(user: User, nav: Int, interview: Interview)
 
 @main("Онлайн опросы | Панель управления") {
     <script type="text/javascript" src="@routes.API.jsRoutes()"></script>
@@ -11,7 +11,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><strong>@userName</strong></a></li>
+                    <li><a href="#"><strong>@user.getUserFirstName @user.getUserLastName</strong></a></li>
                     <li><a href="@routes.Secure.logOutProc()">Выход</a></li>
                 </ul>
             </div>
@@ -28,6 +28,12 @@
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Ответы на опросы</a></li>
                     <li @if(3 == nav){class="active"}><a href="@controllers.routes.Application.createNew()">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Создать новый опрос</a></li>
+                    @if(user.getIsAdmin) {
+                        <li @if(4 == nav) {
+                            class="active"}><a href="@controllers.routes.Application.users()">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            Управление пользователями</a></li>
+                    }
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -42,6 +48,9 @@
                 }
                 @if(3 == nav) {
                     @createNew()
+                }
+                @if(4 == nav) {
+                    @users()
                 }
             </div>
         </div>

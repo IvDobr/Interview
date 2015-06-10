@@ -46,6 +46,7 @@ create table user (
   user_first_name           varchar(255),
   user_last_name            varchar(255),
   reg_date                  timestamp,
+  is_admin                  boolean,
   user_pass                 varchar(255),
   constraint uq_user_user_login unique (user_login),
   constraint pk_user primary key (user_id))

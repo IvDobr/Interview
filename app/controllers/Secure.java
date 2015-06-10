@@ -9,7 +9,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.auth;
 
-import java.util.List;
 import play.Logger;
 
 public class Secure extends Controller {
@@ -29,7 +28,8 @@ public class Secure extends Controller {
                     requestData.get("userLoginReg"),
                     requestData.get("userFirstNameReg"),
                     requestData.get("userLastNameReg"),
-                    requestData.get("userPassReg")));
+                    requestData.get("userPassReg"),
+                    false));
             return badRequest(auth.render("Регистрация успешна! Входите :)"));
         } catch (Exception e){
             Logger.error("Неверные данные: " + e.getLocalizedMessage());

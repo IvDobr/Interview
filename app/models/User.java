@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import play.Logger;
 
 @Entity
 public class User extends Model {
@@ -32,6 +33,8 @@ public class User extends Model {
 
     private Date regDate; //Дата регистрации пользователя
 
+    private Boolean isAdmin;
+
     @Constraints.Required
     private String userPass; //Пароль пользователя
 
@@ -43,11 +46,12 @@ public class User extends Model {
     }
 
     //Конструктор пользователя
-    public User(String userLogin, String userFirstName, String userLastName, String userPass) {
+    public User(String userLogin, String userFirstName, String userLastName, String userPass, Boolean isAdmin) {
         this.userLogin = userLogin;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.userPass = userPass;
+        this.isAdmin = isAdmin;
         this.regDate = new java.util.Date(); //Дата регистрации ставится автоматически при создании пользователя
     }
 
@@ -94,6 +98,14 @@ public class User extends Model {
         return regDate;
     }
 
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
     public List<Interview> getInterviews() {
         return interviews;
     }
@@ -107,7 +119,10 @@ public class User extends Model {
         getUserInfoJSON.put("userLogin", this.userLogin);
         getUserInfoJSON.put("userFirstName", this.userFirstName);
         getUserInfoJSON.put("userLastName", this.userLastName);
-        getUserInfoJSON.put("regDate", date.format(this.regDate)); //тут еще мы преобразовываем время в пользовательский вид
+        getUserInfoJSON.put("userPass", this.userPass);
+        if (this.isAdmin) getUserInfoJSON.put("status", "Администратор");
+        else getUserInfoJSON.put("status", "Пользователь");
+        getUserInfoJSON.put("userReg", date.format(this.regDate)); //тут еще мы преобразовываем время в пользовательский вид
 
         return getUserInfoJSON;
     }

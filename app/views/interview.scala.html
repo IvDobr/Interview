@@ -25,7 +25,9 @@
       <p class="lead">@sabj.getInterviewText</p>
     </div>
 
-    <small>Вопросы, отмеченные значком <span class="req glyphicon glyphicon-asterisk"></span> являются обязательными!</small>
+      <div class="well">
+        <small>Вопросы, отмеченные значком <span class="req glyphicon glyphicon-asterisk"></span> являются обязательными!</small>
+      </div>
 
     <form method="post" action="@routes.InterviewCtrl.get(sabj.getInterviewId)">
       @if(sabj.getReqUserName) {
