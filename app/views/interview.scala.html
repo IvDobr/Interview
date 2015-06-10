@@ -1,0 +1,65 @@
+@(sabj: Interview)
+
+@main("Опрос") {
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/jumbotron-narrow.css")">
+
+  <style type="text/css">
+  .req {
+    color: darkred;
+  }
+  </style>
+
+  <div class="container">
+    <div class="header clearfix">
+      <nav>
+        <ul class="nav nav-pills pull-right">
+          <li role="presentation" ><a href="@controllers.routes.Secure.index()">
+            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Вход</a></li>
+        </ul>
+      </nav>
+      <h3 class="text-muted">Онлайн опросы</h3>
+    </div>
+
+    <div class="jumbotron">
+      <h1>@sabj.getInterviewTitle</h1>
+      <p class="lead">@sabj.getInterviewText</p>
+    </div>
+
+    <small>Вопросы, отмеченные значком <span class="req glyphicon glyphicon-asterisk"></span> являются обязательными!</small>
+
+    <form method="post" action="@routes.InterviewCtrl.get(sabj.getInterviewId)">
+      @if(sabj.getReqUserName) {
+        <div class="form-group">
+          <label for="userName">Как Вас зовут?</label> <span class="req glyphicon glyphicon-asterisk"></span>
+          <input type="text" class="form-control" id="userName" name="userName" placeholder="Имя">
+        </div>
+      }
+    @for(q <- sabj.getQestions) {
+      <div class="form-group">
+        <label>@q.getQuestionTitle</label> @if(q.getRequired) { <span class="req glyphicon glyphicon-asterisk"></span>}
+        @for(v <- q.getVariants) {
+          <div class="@if(q.getManyVariants) {checkbox} else {radio}" >
+            <label>
+              <input type="@if(q.getManyVariants) {checkbox} else {radio}" name="@if(q.getManyVariants) { @v.getVariantId} else {@q.getQuestionId}" value="@v.getVariantId">
+              @v.getVariant
+            </label>
+          </div>
+        }
+        @if(q.getUserVariant) {
+          <div class="@if(q.getManyVariants) {checkbox} else {radio}">
+            <label>
+              <input type="@if(q.getManyVariants) {checkbox} else {radio}" name="@q.getQuestionId" id="userVar" value="userVar">
+              <input type="text" class="form-control" id="3" placeholder="Свой вариант ответа" name="var_@q.getQuestionId">
+            </label>
+          </div>
+        }
+      </div>
+    }
+        <button type="submit" class="btn btn-success">Отправить</button>
+    </form>
+
+      <footer class="footer">
+          <p>&copy; Yudova corp.</p>
+      </footer>
+  </div>
+}

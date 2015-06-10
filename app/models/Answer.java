@@ -30,14 +30,14 @@ public class Answer extends Model {
     @ManyToOne
     private Interview interview;
 
-    @OneToMany(mappedBy="answer")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="answer")
     private List<Check_variant> check_variants;
 
     public Answer() {
     }
 
-    public Answer(Date createDate, String userName, Interview interview) {
-        this.createDate = createDate;
+    public Answer(String userName, Interview interview) {
+        this.createDate = new java.util.Date();
         this.userName = userName;
         this.interview = interview;
     }
@@ -76,7 +76,7 @@ public class Answer extends Model {
 
     public ObjectNode getAnswerInfoJSON() {
         ObjectNode getAnswerInfoJSON = Json.newObject();
-        DateFormat date = new SimpleDateFormat("dd.MM.yy HH:mm");
+        DateFormat date = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
 
         getAnswerInfoJSON.put("answerId", this.answerId);
         getAnswerInfoJSON.put("interview", this.interview.getInterviewTitle()); //кладем заголовок опроса

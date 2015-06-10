@@ -3,16 +3,53 @@
 @main("Авторизация пользователя") {
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/signin.css")">
 
+    <script>
+        $( ".reg" ).submit(function( event ) {
+        alert("ad");
+          if ( $( "#userPassReg" ).val() === $( "#userPassCheckReg" ).val() ) {
+            return;
+          }
+          $( "#userPassCheckReg" ).addClass("has-error");
+          event.preventDefault();
+        });
+        //ДОДЕЛАТЬ ЧТОБ РАБОТАЛО
+    </script>
+
     <div class="container">
-        <form class="form-signin" method="post" action="@routes.Secure.logInProc()">
-            <h2 class="form-signin-heading">Авторизация</h2>
-            <p class="text-danger" style="font-size: 150%;">@message</p>
-            <label for="inputLogin" class="sr-only">Логин</label>
-            <input type="text" id="inputLogin" name ="userLogin" class="form-control" placeholder="Логин" required autofocus>
-            <label for="inputPassword" class="sr-only">Пароль</label>
-            <input type="password" id="inputPassword" name="userPass" class="form-control" placeholder="Пароль" required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>
-        </form>
+        <div class="row">
+            <div class="col-md-6">
+                <form class="form-signin" method="post" action="@routes.Secure.logInProc()">
+                    <h2 class="form-signin-heading">Авторизация</h2>
+                    <p class="text-danger" style="font-size: 150%;">@message</p>
+                    <label for="inputLogin" class="sr-only">Логин</label>
+                    <input type="text" id="inputLogin" name ="userLogin" class="form-control" placeholder="Логин" required autofocus>
+                    <label for="inputPassword" class="sr-only">Пароль</label>
+                    <input type="password" id="inputPassword" name="userPass" class="form-control" placeholder="Пароль" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Вход</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <form class="form-signin reg" method="post" action="@routes.Secure.reg()">
+                    <h2 class="form-heading">Регистрация</h2>
+                    <div class="input-group">
+                        <label for="inputLogin">Логин</label>
+                        <input type="text" id="userLoginReg" name ="userLoginReg" class="form-control" placeholder="Логин" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="inputPassword">Пароль</label>
+                        <input type="password" id="userPassReg" name="userPassReg" class="form-control" placeholder="Пароль" required>
+                        <input type="password" id="userPassCheckReg" name="userPassCheckReg" class="form-control" placeholder="Повтор пароля" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="inputFirstName">Личные данные</label>
+                        <input type="text" id="userFirstNameReg" name ="userFirstNameReg" class="form-control" placeholder="Имя" required>
+                        <input type="text" id="userLastNameReg" name ="userLastNameReg" class="form-control" placeholder="Фамилия" required>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Регистрация</button>
+                </form>
+            </div>
+        </div>
     </div>
 
 }

@@ -1,5 +1,6 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
 import models.User;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -9,6 +10,7 @@ import play.mvc.Result;
 import views.html.auth;
 
 import java.util.List;
+import play.Logger;
 
 public class Secure extends Controller {
 
@@ -20,16 +22,28 @@ public class Secure extends Controller {
         }
     }
 
+    public static Result reg() {
+        DynamicForm requestData = Form.form().bindFromRequest();
+        try{
+            Ebean.save(new User(
+                    requestData.get("userLoginReg"),
+                    requestData.get("userFirstNameReg"),
+                    requestData.get("userLastNameReg"),
+                    requestData.get("userPassReg")));
+            return badRequest(auth.render("Регистрация успешна! Входите :)"));
+        } catch (Exception e){
+            Logger.error("Неверные данные: " + e.getLocalizedMessage());
+            return badRequest(auth.render("Регистрация не успешна :("));
+        }
+    }
+
     public static Result logInProc() {
         DynamicForm requestData = Form.form().bindFromRequest();
 
-        List<User> userList = User.find.where()
-                .ilike("userLogin", requestData.get("userLogin"))
-                .findList();
-
         User current_user;
         try{
-            current_user = userList.get(0);
+            current_user = User.find.where()
+                    .like("userLogin", requestData.get("userLogin")).findUnique();
         } catch (Exception e){
             System.out.println("INFO: Неверный логин или пароль!");
             return badRequest(auth.render("Неверный логин или пароль!"));

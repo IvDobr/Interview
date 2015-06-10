@@ -35,7 +35,7 @@ public class User extends Model {
     @Constraints.Required
     private String userPass; //Пароль пользователя
 
-    @OneToMany(mappedBy="interviewOwner")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="interviewOwner")
     private List<Interview> interviews; //Список опросов пользователя
 
     //Пустой конструктор пользователя

@@ -7,6 +7,9 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
+
+        //TimeZone.setDefault(TimeZone.getTimeZone("GMT+8")); //Задаем иркутский часовой пояс
+
         if (User.find.all().isEmpty()) { //проверяем, пустой ли список пользователей
             User user = new User("user", "Тестовый", "Пользователь", "123"); //создаем экземпляр нового пользователя
             try {

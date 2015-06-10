@@ -14,6 +14,8 @@ create table answer (
 create table check_variant (
   check_variant_id          integer not null,
   answer_answer_id          integer,
+  user_var                  varchar(255),
+  parent_question_question_id integer,
   variant_variant_id        integer,
   constraint pk_check_variant primary key (check_variant_id))
 ;
@@ -21,6 +23,7 @@ create table check_variant (
 create table interview (
   interview_id              integer not null,
   interview_title           varchar(255),
+  req_user_name             boolean,
   interview_text            VARCHAR(4095),
   interview_owner_user_id   integer,
   create_date               timestamp,
@@ -31,6 +34,8 @@ create table question (
   question_id               integer not null,
   question_title            varchar(255),
   required                  boolean,
+  many_variants             boolean,
+  user_variant              boolean,
   question_parent_interview_id integer,
   constraint pk_question primary key (question_id))
 ;
@@ -69,14 +74,16 @@ alter table answer add constraint fk_answer_interview_1 foreign key (interview_i
 create index ix_answer_interview_1 on answer (interview_interview_id);
 alter table check_variant add constraint fk_check_variant_answer_2 foreign key (answer_answer_id) references answer (answer_id) on delete restrict on update restrict;
 create index ix_check_variant_answer_2 on check_variant (answer_answer_id);
-alter table check_variant add constraint fk_check_variant_variant_3 foreign key (variant_variant_id) references variant (variant_id) on delete restrict on update restrict;
-create index ix_check_variant_variant_3 on check_variant (variant_variant_id);
-alter table interview add constraint fk_interview_interviewOwner_4 foreign key (interview_owner_user_id) references user (user_id) on delete restrict on update restrict;
-create index ix_interview_interviewOwner_4 on interview (interview_owner_user_id);
-alter table question add constraint fk_question_questionParent_5 foreign key (question_parent_interview_id) references interview (interview_id) on delete restrict on update restrict;
-create index ix_question_questionParent_5 on question (question_parent_interview_id);
-alter table variant add constraint fk_variant_variantParent_6 foreign key (variant_parent_question_id) references question (question_id) on delete restrict on update restrict;
-create index ix_variant_variantParent_6 on variant (variant_parent_question_id);
+alter table check_variant add constraint fk_check_variant_parentQuestio_3 foreign key (parent_question_question_id) references question (question_id) on delete restrict on update restrict;
+create index ix_check_variant_parentQuestio_3 on check_variant (parent_question_question_id);
+alter table check_variant add constraint fk_check_variant_variant_4 foreign key (variant_variant_id) references variant (variant_id) on delete restrict on update restrict;
+create index ix_check_variant_variant_4 on check_variant (variant_variant_id);
+alter table interview add constraint fk_interview_interviewOwner_5 foreign key (interview_owner_user_id) references user (user_id) on delete restrict on update restrict;
+create index ix_interview_interviewOwner_5 on interview (interview_owner_user_id);
+alter table question add constraint fk_question_questionParent_6 foreign key (question_parent_interview_id) references interview (interview_id) on delete restrict on update restrict;
+create index ix_question_questionParent_6 on question (question_parent_interview_id);
+alter table variant add constraint fk_variant_variantParent_7 foreign key (variant_parent_question_id) references question (question_id) on delete restrict on update restrict;
+create index ix_variant_variantParent_7 on variant (variant_parent_question_id);
 
 
 

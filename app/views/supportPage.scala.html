@@ -1,0 +1,23 @@
+@(message: String, message2: String)
+
+@main(message) {
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/jumbotron-narrow.css")">
+
+  <div class="container">
+    <div class="header clearfix">
+      <nav>
+        <ul class="nav nav-pills pull-right">
+          <li role="presentation" ><a href="@controllers.routes.Secure.index()">
+            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Вход</a></li>
+        </ul>
+      </nav>
+      <h3 class="text-muted">Онлайн опросы</h3>
+    </div>
+
+    <div class="jumbotron">
+      <h1>@message</h1>
+      <p class="lead">@message2</p>
+    </div>
+
+  </div>
+}

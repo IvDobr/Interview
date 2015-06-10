@@ -3,14 +3,33 @@
 # ~~~~
 
 # Home page
-GET         /                    controllers.Secure.index()
+GET           /                     controllers.Secure.index()
 
 # Secure
-POST        /login               controllers.Secure.logInProc()
-GET         /logout              controllers.Secure.logOutProc()
+POST          /login                controllers.Secure.logInProc()
+GET           /logout               controllers.Secure.logOutProc()
+
+POST          /reg                  controllers.Secure.reg()
 
 # Content
-GET         /cabinet             controllers.Application.index()
+GET           /cabinet              controllers.Application.index()
+GET           /creator              controllers.Application.createNew()
+GET           /answers              controllers.Application.seeAnswers(id: Integer ?=0)
+
+GET           /interview/:id        controllers.InterviewCtrl.send(id: Integer)
+POST          /interview/:id        controllers.InterviewCtrl.get(id: Integer)
+
+# API
+GET           /api/interview        controllers.API.getInterviewJSON(sortby: String ?="", search: String ?="")
+PUT           /api/interview        controllers.API.newInterviewJSON()
+#POST         /api/interview            controllers.API.newInterviewJSON()
+DELETE        /api/interview        controllers.API.removeInterviewJSON()
+
+GET           /api/answer           controllers.API.getAnswersJSON(intId: Integer ?=0, sortby: String ?="", search: String ?="", pageSize: Int ?=20, currentPage: Int ?=1)
+DELETE        /api/answer           controllers.API.removeAnswerJSON()
+
+# jsRoutes
+GET           /api/jsRoutes         controllers.API.jsRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file        controllers.Assets.at(path="/public", file)
+GET           /assets/*file         controllers.Assets.at(path="/public", file)

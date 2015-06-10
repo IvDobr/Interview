@@ -1,0 +1,68 @@
+<script type="text/javascript" src ='@routes.Assets.at("javascripts/createNew.js")'></script>
+
+<h1 class="page-header">Создание нового опроса</h1>
+
+<div style="max-width: 50%;">
+    <label for="intTitle">Название опроса</label>
+    <input type="text" class="form-control" id="intTitle" placeholder="Название" data-bind='value: title' >
+
+    <label for="intDescription">Описание опроса</label>
+    <textarea rows="5" class="form-control" id="intDescription" placeholder="Описание" data-bind='value: description' ></textarea>
+
+    <label><input type="checkbox" data-bind="checked: reqUserName" checked/> Узнавать имя у опрашиваемого?</label>
+</div>
+
+<h3>Вопросы</h3>
+
+<div>
+    <table class="table" data-bind="visible: questions().length > 0">
+        <tr>
+            <th>Вопрос</th>
+            <th>Варианты ответов</th>
+        </tr>
+        <tbody data-bind="foreach: questions">
+            <tr>
+                <td>
+                    <input data-bind='value: question' size="50"/> <a href='#' data-bind='click: $root.removeQuestion'><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                    <div><input type="checkbox" data-bind="checked: required" checked/> обязательный</div>
+                    <div><input type="checkbox" data-bind="checked: manyVars" /> множественный выбор</div>
+                </td>
+                <td>
+                    <table>
+                        <tbody data-bind="foreach: variants">
+                            <tr>
+                                <td><input data-bind='value: variant' size="30"/></td>
+                                <td><a href='#' data-bind='click: $root.removeVariant'><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-default btn-sm" data-bind='click: $root.addVariant'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить вариант</button>
+                    <div><input type="checkbox" data-bind="checked: userVar" /> вариант пользователя</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-default btn-sm" data-bind='click: addQuestion'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить вопрос</button>
+</div>
+
+<div style="margin-top: 12px;">
+    <button class="btn btn-success" data-bind='click: create, enable: questions().length > 0'>Создать опрос</button>
+    <span data-bind="visible: intURL() != null"><label for="intURL"> Ссылка на опрос: </label><input type="text" data-bind="value: intURL" readonly size="35"/></span>
+</div>
+
+<div class="modal fade" id="created" tabindex="-1" role="dialog" aria-labelledby="createdLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+                <h4 class="modal-title" id="createdLabel">Опрос успешно создан!</h4>
+            </div>
+            <div class="modal-body">
+                <label for="intURL"> Ссылка на опрос: </label><input type="text" data-bind="value: intURL" readonly size="35"/>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Назад</button>
+            </div>
+        </div>
+    </div>
+</div>

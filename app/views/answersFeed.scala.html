@@ -1,0 +1,129 @@
+@(title: String, id: Integer)
+
+<script type="text/javascript" src ='@routes.Assets.at("javascripts/answersFeed.js")'></script>
+<param name="id" value="@id">
+
+<h1 class="page-header">@title <small>Всего: </small> <small data-bind="text: countAnswers"></small><small> | Показано на странице: </small>
+    <small data-bind="text: answersList().length"></small></h1>
+
+@if(0 != id) {
+     <div class="well">
+        <button type="button" class="btn btn-default btn-lg" onclick="window.history.back();">&lt;&lt;&lt; Вернуться назад</button>
+     </div>
+}
+
+<form class="form-inline">
+
+    <div class="input-group">
+        <input style="max-width: 250px;" type="text" class="form-control" placeholder="Поиск..." data-bind="textInput: search">
+    </div>
+
+    <div class="input-group" style = "margin-left: 20px;">
+        <button data-bind="click: getList" class="btn btn-default refresh">
+            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить
+        </button>
+    </div>
+
+    <div class="input-group" style = "margin-left: 20px;">
+        <span class="input-group-addon">Страница </span>
+        <select class="form-control" aria-describedby="basic-addon1"
+        data-bind="value: currentPage, options: pages, valueAllowUnset: true"></select>
+        <span class="input-group-addon">из <strong data-bind="text: totalPages"></strong></span>
+    </div>
+
+    <div class="input-group" style = "margin-left: 20px;">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1"
+            data-toggle="tooltip" data-placement="top" title="" data-original-title="Отображать по...">
+                <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span>
+            <select class="form-control" aria-describedby="basic-addon1" data-bind="selectedOptions: pageSize">
+                <option value="10">10</option>
+                <option selected value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="300">300</option>
+                <option value="300">500</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="input-group" style = "margin-left: 20px;">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1"
+            data-toggle="tooltip" data-placement="top" title="" data-original-title="Сортировка">
+                <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></span>
+            <select class="form-control" aria-describedby="basic-addon1" data-bind="selectedOptions: sorter">
+                <option selected value="answerId desc">Сначала новые</option>
+                <option value="answerId">Сначала старые</option>
+            </select>
+        </div>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Дата
+                </th>
+                <th>Опрос
+                </th>
+                <th>Ответивший
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: answersList">
+            <tr>
+                <td data-bind="text: answerDate"></td>
+                <td><strong data-bind="text: answerInterview"></strong></td>
+                <td data-bind="text: userName"></td>
+                <td>
+                    <button class="btn btn-default btn-sm" data-bind="click: $root.seeVariants">
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Просмотр</button>
+                    <button class="btn btn-default btn-sm" data-bind="click: $root.removeAnswer">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: darkred;"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="seeVariants" tabindex="-1" role="dialog" aria-labelledby="seeVariantsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+                <h4 class="modal-title" id="seeVariantsLabel">Просмотр ответов</h4>
+            </div>
+            <div class="modal-body">
+                <p>Дата: <strong data-bind="text: answerDate_modal"></strong></p>
+                <p>Название опроса: <strong data-bind="text: answerInterview_modal"></strong></p>
+                <p>Имя ответившего: <strong data-bind="text: userName_modal"></strong></p>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Вопрос
+                                </th>
+                                <th>Ответ
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: variantsList">
+                            <tr>
+                                <td data-bind="text: question"></td>
+                                <td data-bind="text: checkedVariant"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Назад</button>
+                <button class="btn btn-danger" data-dismiss="modal" data-bind="click: removeAnswer">Удалить ответ</button>
+            </div>
+        </div>
+    </div>
+</div>

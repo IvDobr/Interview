@@ -24,18 +24,28 @@ public class Question extends Model {
 
     private Boolean required; //обязателен ли вопрос
 
+    private Boolean manyVariants; //множественный выбор
+
+    private Boolean userVariant; //вариант пользователя
+
     @Constraints.Required
     @ManyToOne
     private Interview questionParent; //в каком опросе находится вопрос
 
-    @OneToMany(mappedBy="variantParent")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="variantParent")
     private List<Variant> variants;
+
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="parentQuestion")
+    private List<Check_variant> user_variants;
 
     public Question() {
     }
 
-    public Question(String questionTitle, Interview questionParent) {
+    public Question(String questionTitle, Boolean required, Boolean manyVariants, Boolean userVariant, Interview questionParent) {
         this.questionTitle = questionTitle;
+        this.required = required;
+        this.manyVariants = manyVariants;
+        this.userVariant = userVariant;
         this.questionParent = questionParent;
     }
 
@@ -55,6 +65,10 @@ public class Question extends Model {
         return variants;
     }
 
+    public List<Check_variant> getUser_variants() {
+        return user_variants;
+    }
+
     public void setQuestionTitle(String questionTitle) {
         this.questionTitle = questionTitle;
     }
@@ -71,6 +85,22 @@ public class Question extends Model {
         this.required = required;
     }
 
+    public Boolean getManyVariants() {
+        return manyVariants;
+    }
+
+    public void setManyVariants(Boolean manyVariants) {
+        this.manyVariants = manyVariants;
+    }
+
+    public Boolean getUserVariant() {
+        return userVariant;
+    }
+
+    public void setUserVariant(Boolean userVariant) {
+        this.userVariant = userVariant;
+    }
+
     public ObjectNode getQuestionInfoJSON() {
         ObjectNode getQuestionInfoJSON = Json.newObject();
 
@@ -83,7 +113,6 @@ public class Question extends Model {
             v_s.add(i.getVariantInfoJSON());
         }
         getQuestionInfoJSON.put("variants", Json.toJson(v_s));
-        //TODO ^^^ проверить ^^^
 
         return getQuestionInfoJSON;
     }

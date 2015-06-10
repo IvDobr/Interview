@@ -1,7 +1,49 @@
-@(message: String)
+@(userName: String, nav: Int, interview: Interview)
 
-@main("Welcome") {
+@main("Онлайн опросы | Панель управления") {
+    <script type="text/javascript" src="@routes.API.jsRoutes()"></script>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/dashboard.css")">
 
-    TODO
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Онлайн опросы | Панель управления</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><strong>@userName</strong></a></li>
+                    <li><a href="@routes.Secure.logOutProc()">Выход</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li @if(1 == nav || 0 == nav){class="active"}><a href="@controllers.routes.Application.index()">
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Все опросы</a></li>
+                    <li @if(2 == nav){class="active"}><a href="@controllers.routes.Application.seeAnswers(0)">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Ответы на опросы</a></li>
+                    <li @if(3 == nav){class="active"}><a href="@controllers.routes.Application.createNew()">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Создать новый опрос</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                @if(0 == nav) {
+                    @answersFeed("Ответы на опрос " + interview.getInterviewTitle, interview.getInterviewId)
+                }
+                @if(1 == nav) {
+                    @list()
+                }
+                @if(2 == nav) {
+                    @answersFeed("Лента ответов", 0)
+                }
+                @if(3 == nav) {
+                    @createNew()
+                }
+            </div>
+        </div>
+    </div>
 }

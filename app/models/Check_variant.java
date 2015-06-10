@@ -20,8 +20,12 @@ public class Check_variant extends Model {
     @Constraints.Required
     @ManyToOne
     private Answer answer;
+    
+    private String userVar;
 
-    @Constraints.Required
+    @ManyToOne
+    private Question parentQuestion;
+
     @ManyToOne
     private Variant variant;
 
@@ -31,6 +35,12 @@ public class Check_variant extends Model {
     public Check_variant(Answer answer, Variant variant) {
         this.answer = answer;
         this.variant = variant;
+    }
+
+    public Check_variant(Answer answer, String userVar, Question parentQuestion) {
+        this.answer = answer;
+        this.userVar = userVar;
+        this.parentQuestion = parentQuestion;
     }
 
     public Integer getCheck_variantId() {
@@ -53,10 +63,32 @@ public class Check_variant extends Model {
         this.variant = variant;
     }
 
+    public String getUserVar() {
+        return userVar;
+    }
+
+    public void setUserVar(String userVar) {
+        this.userVar = userVar;
+    }
+
+    public Question getParentQuestion() {
+        return parentQuestion;
+    }
+
+    public void setParentQuestion(Question parent) {
+        this.parentQuestion = parent;
+    }
+
     public ObjectNode getCheck_variantInfoJSON() {
         ObjectNode getCheck_variantInfoJSON = Json.newObject();
-        getCheck_variantInfoJSON.put("question", this.variant.getVariantParent().getQuestionTitle()); //Кладем вопрос
-        getCheck_variantInfoJSON.put("question", this.variant.getVariant()); //Кладем ответ на вопрос
+
+        if (null == variant){
+            getCheck_variantInfoJSON.put("question", this.parentQuestion.getQuestionTitle()); //Кладем вопрос
+            getCheck_variantInfoJSON.put("answer", userVar); //Кладем ответ на вопрос
+        } else {
+            getCheck_variantInfoJSON.put("question", this.variant.getVariantParent().getQuestionTitle()); //Кладем вопрос
+            getCheck_variantInfoJSON.put("answer", this.variant.getVariant()); //Кладем ответ на вопрос
+        }
         return getCheck_variantInfoJSON;
     }
 }
