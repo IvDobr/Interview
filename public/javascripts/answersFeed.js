@@ -40,8 +40,35 @@ InterviewList = function() {
     self.question                   = ko.observable("");
     self.checkedVariant             = ko.observable("");
 
+    self.getDiagrams = function(){
+        var id = $("param[name='id']").attr("value");
+        if (0 != id) {
+            jsRoutes.controllers.API.getGraphsJSON(id).ajax({
+                success: function (data) {
+                    var graphs = data.graphs;
+                    for (var i = 0; i < graphs.length; i++) {
+                        $( "#graphs" ).append( "<div id=\"" + graphs[i].questionId + "\"></div>");
+                            var revenueChart = new FusionCharts({
+                                "type": graphs[i].type_of_this_diagram,
+                                "renderAt": graphs[i].questionId.toString(),
+                                "width": "800",
+                                "height": "300",
+                                "dataFormat": "json",
+                                "dataSource": graphs[i]
+                            });
+                            revenueChart.render();
+                    }
+                },
+                error: function () {
+                    console.log('Не могу отправить json запрос');
+                }
+            });
+        }
+    };
+
     self.getList = function(){
         var id = $("param[name='id']").attr("value");
+
         jsRoutes.controllers.API.getAnswersJSON().ajax({
             dataType : 'json',
             contentType : 'charset=utf-8',
@@ -119,11 +146,10 @@ InterviewList = function() {
     };
 
     ko.computed(function() {
+        self.getDiagrams();
         self.getList();
         return self.pageSize() + self.sorter();
     });
-
-    self.getList();
 };
 
 $( document ).ready(function() {

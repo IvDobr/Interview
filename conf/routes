@@ -33,6 +33,8 @@ DELETE        /admin/api/user        controllers.API.removeUserJSON()
 GET           /api/answer            controllers.API.getAnswersJSON(intId: Integer ?=0, sortby: String ?="", search: String ?="", pageSize: Int ?=20, currentPage: Int ?=1)
 DELETE        /api/answer            controllers.API.removeAnswerJSON()
 
+GET           /api/graphs            controllers.API.getGraphsJSON(intId: Integer)
+
 # jsRoutes
 GET           /api/jsRoutes          controllers.API.jsRoutes()
 

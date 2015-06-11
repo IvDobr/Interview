@@ -14,10 +14,7 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class API extends Controller {
@@ -176,6 +173,28 @@ public class API extends Controller {
             return ok(result);
         } catch (Exception e) {
             Logger.error(e.getMessage());
+            result.put("status", "error");
+            return badRequest(result);
+        }
+    }
+
+    public static Result getGraphsJSON(Integer intId) {
+        ObjectNode result = Json.newObject();
+        try {
+            Interview interview = Ebean.find(Interview.class, intId);
+            List<ObjectNode> q = Ebean
+                    .find(Question.class)
+                    .where()
+                    .eq("questionParent", interview)
+                    .findList()
+                    .stream()
+                    .map(Question::getQuestionCountersJSON)
+                    .collect(Collectors.toList());
+            result.put("graphs", Json.toJson(q));
+            result.put("status", "OK");
+            return ok(result);
+        } catch (Exception e) {
+            Logger.error("Ошибка вывода: " + e.getLocalizedMessage());
             result.put("status", "error");
             return badRequest(result);
         }
@@ -341,6 +360,7 @@ public class API extends Controller {
                         controllers.routes.javascript.API.getInterviewJSON(),
                         controllers.routes.javascript.API.removeInterviewJSON(),
                         controllers.routes.javascript.API.editInterviewJSON(),
+                        controllers.routes.javascript.API.getGraphsJSON(),
                         controllers.routes.javascript.API.getAnswersJSON(),
                         controllers.routes.javascript.API.removeAnswerJSON(),
                         controllers.routes.javascript.API.getAllUsersJSON(),

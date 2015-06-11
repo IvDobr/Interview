@@ -1,12 +1,12 @@
 package models;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Variant extends Model {
@@ -23,6 +23,9 @@ public class Variant extends Model {
     @Constraints.Required
     @ManyToOne
     private Question variantParent;
+
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="variant")
+    private List<Check_variant> check_variants;
 
     public Variant(String variant, Question variantParent) {
         this.variant = variant;
@@ -49,13 +52,22 @@ public class Variant extends Model {
         return variantId;
     }
 
+    public List<Check_variant> getVariants() {
+        return check_variants;
+    }
+
     public ObjectNode getVariantInfoJSON() {
         ObjectNode getVariantInfoJSON = Json.newObject();
-
         getVariantInfoJSON.put("variantId", this.variantId);
         getVariantInfoJSON.put("variant", this.variant);
-
         return getVariantInfoJSON;
+    }
+
+    public ObjectNode getVariantCountersJSON() {
+        ObjectNode getVariantCountersJSON = Json.newObject();
+        getVariantCountersJSON.put("label", this.variant);
+        getVariantCountersJSON.put("value", this.check_variants.size());
+        return getVariantCountersJSON;
     }
 
 }

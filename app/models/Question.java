@@ -6,6 +6,7 @@ import play.db.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -115,5 +116,33 @@ public class Question extends Model {
         getQuestionInfoJSON.put("variants", Json.toJson(v_s));
 
         return getQuestionInfoJSON;
+    }
+
+    public ObjectNode getQuestionCountersJSON() {
+        ObjectNode getQuestionCountersJSON = Json.newObject();
+
+        getQuestionCountersJSON.put("questionId", this.questionId);
+
+        if (this.manyVariants) getQuestionCountersJSON.put("type_of_this_diagram", "column2d");
+        else getQuestionCountersJSON.put("type_of_this_diagram", "pie2d");
+
+        List<ObjectNode> v_s = new ArrayList<>();
+
+        for(Variant v: this.variants) v_s.add(v.getVariantCountersJSON());
+
+        if (this.manyVariants) {
+            ObjectNode temp = Json.newObject();
+            temp.put("label", "Пользовательский вариант");
+            temp.put("value", this.user_variants.size());
+            v_s.add(temp);
+        }
+
+        ObjectNode chart = Json.newObject();
+        chart.put("caption", this.questionTitle);
+
+        getQuestionCountersJSON.put("chart", Json.toJson(chart));
+        getQuestionCountersJSON.put("data", Json.toJson(v_s));
+
+        return getQuestionCountersJSON;
     }
 }
