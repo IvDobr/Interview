@@ -38,7 +38,7 @@ InterviewList = function() {
                             o[i].interviewDate,
                             o[i].interviewQcount,
                             o[i].interviewAcount,
-                            "localhost:9000/interview/" + o[i].interviewId
+                            "interviews.herokuapp.com/interview/" + o[i].interviewId
                         )
                     );
                 }
@@ -67,7 +67,7 @@ InterviewList = function() {
     self.editInterview = function(){};
 
     self.answers = function(interview){
-        document.location.href = "http://localhost:9000/answers?id="+interview.interviewId;
+        document.location.href = "http://interviews.herokuapp.com/answers?id="+interview.interviewId;
     };
 
     ko.computed(function() {

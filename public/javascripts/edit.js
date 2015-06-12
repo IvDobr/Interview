@@ -48,7 +48,7 @@ var InterviewModel = function() {
             contentType : 'application/json; charset=utf-8',
             data        : dataJSON,
             success : function(result){
-                self.intURL("localhost:9000/interview/" + result.id)
+                self.intURL("interviews.herokuapp.com/interview/" + result.id)
                 $('#created').modal('show');
             },
             error : function(result){
