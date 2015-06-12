@@ -120,29 +120,31 @@ public class Question extends Model {
 
     public ObjectNode getQuestionCountersJSON() {
         ObjectNode getQuestionCountersJSON = Json.newObject();
+        try {
+            getQuestionCountersJSON.put("questionId", this.questionId);
 
-        getQuestionCountersJSON.put("questionId", this.questionId);
+            if (this.manyVariants) getQuestionCountersJSON.put("type_of_this_diagram", "column2d");
+            else getQuestionCountersJSON.put("type_of_this_diagram", "pie2d");
 
-        if (this.manyVariants) getQuestionCountersJSON.put("type_of_this_diagram", "column2d");
-        else getQuestionCountersJSON.put("type_of_this_diagram", "pie2d");
+            List<ObjectNode> v_s = new ArrayList<>();
 
-        List<ObjectNode> v_s = new ArrayList<>();
+            for(Variant v: this.variants) v_s.add(v.getVariantCountersJSON());
 
-        for(Variant v: this.variants) v_s.add(v.getVariantCountersJSON());
+            if (this.manyVariants) {
+                ObjectNode temp = Json.newObject();
+                temp.put("label", "Пользовательский вариант");
+                temp.put("value", this.user_variants.size());
+                v_s.add(temp);
+            }
 
-        if (this.manyVariants) {
-            ObjectNode temp = Json.newObject();
-            temp.put("label", "Пользовательский вариант");
-            temp.put("value", this.user_variants.size());
-            v_s.add(temp);
+            ObjectNode chart = Json.newObject();
+            chart.put("caption", this.questionTitle);
+
+            getQuestionCountersJSON.put("chart", Json.toJson(chart));
+            getQuestionCountersJSON.put("data", Json.toJson(v_s));
+        } catch (Exception e) {
+        getQuestionCountersJSON.put("Error", e.getMessage());
         }
-
-        ObjectNode chart = Json.newObject();
-        chart.put("caption", this.questionTitle);
-
-        getQuestionCountersJSON.put("chart", Json.toJson(chart));
-        getQuestionCountersJSON.put("data", Json.toJson(v_s));
-
         return getQuestionCountersJSON;
     }
 }

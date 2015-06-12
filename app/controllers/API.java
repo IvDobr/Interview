@@ -60,13 +60,13 @@ public class API extends Controller {
                             Ebean.save(variant);
                         } catch (Exception e) {
                             Logger.error(e.getMessage());
-                            result.put("status", "error");
+                            result.put("status", "error" + e.getMessage());
                             return badRequest(result);
                         }
                     }
                 } catch (Exception e) {
                     Logger.error(e.getMessage());
-                    result.put("status", "error");
+                    result.put("status", "error" + e.getMessage());
                     return badRequest(result);
                 }
             }
@@ -75,7 +75,7 @@ public class API extends Controller {
             return ok(result);
         } catch (Exception e) {
             Logger.error(e.getMessage());
-            result.put("status", "error");
+            result.put("status", "error" + e.getMessage());
             return badRequest(result);
         }
     }
@@ -116,7 +116,7 @@ public class API extends Controller {
             return ok(result);
         } catch (Exception e) {
             Logger.error("Невозможно удалить опрос: " + e.getMessage());
-            result.put("status", "error");
+            result.put("status", "error" + e.getMessage());
             return badRequest(result);
         }
     }
@@ -158,13 +158,13 @@ public class API extends Controller {
                             Ebean.save(variant);
                         } catch (Exception e) {
                             Logger.error(e.getMessage());
-                            result.put("status", "error");
+                            result.put("status", "error" + e.getMessage());
                             return badRequest(result);
                         }
                     }
                 } catch (Exception e) {
                     Logger.error(e.getMessage());
-                    result.put("status", "error");
+                    result.put("status", "error" + e.getMessage());
                     return badRequest(result);
                 }
             }
@@ -173,7 +173,7 @@ public class API extends Controller {
             return ok(result);
         } catch (Exception e) {
             Logger.error(e.getMessage());
-            result.put("status", "error");
+            result.put("status", "error" + e.getMessage());
             return badRequest(result);
         }
     }
@@ -195,7 +195,7 @@ public class API extends Controller {
             return ok(result);
         } catch (Exception e) {
             Logger.error("Ошибка вывода: " + e.getLocalizedMessage());
-            result.put("status", "error");
+            result.put("status", "error" + e.getMessage());
             return badRequest(result);
         }
     }
@@ -237,8 +237,8 @@ public class API extends Controller {
             result.put("status", "OK");
             return ok(result);
         } catch (Exception e) {
-            Logger.error("Ошибка вывода: " + e.getLocalizedMessage());
-            result.put("status", "error");
+            Logger.error("Ошибка вывода: " + e.getMessage());
+            result.put("status", "error" + e.getMessage());
             return badRequest(result);
         }
     }
@@ -253,7 +253,7 @@ public class API extends Controller {
             return ok(result);
         } catch (Exception e) {
             Logger.error("Невозможно удалить ответ: " + e.getMessage());
-            result.put("status", "error");
+            result.put("status", "error" + e.getMessage());
             return badRequest(result);
         }
     }
@@ -324,7 +324,7 @@ public class API extends Controller {
             return ok(result);
         } catch (Exception e) {
             Logger.error("Невозможно изменить аккаунт! " + e.getMessage());
-            result.put("status", "error");
+            result.put("status", "error" + e.getMessage());
             return badRequest(result);
         }
     }
@@ -343,11 +343,11 @@ public class API extends Controller {
                 return ok(result);
             } catch (Exception e) {
                 Logger.error("Невозможно удалить аккаунт!");
-                result.put("status", "error");
+                result.put("status", "error" + e.getMessage());
                 return badRequest(result);
             }
         } else {
-            result.put("status", "error");
+            result.put("status", "error" + e.getMessage());
             return badRequest(result);
         }
     }

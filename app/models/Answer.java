@@ -76,18 +76,22 @@ public class Answer extends Model {
 
     public ObjectNode getAnswerInfoJSON() {
         ObjectNode getAnswerInfoJSON = Json.newObject();
-        DateFormat date = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
+        try {
+            DateFormat date = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
 
-        getAnswerInfoJSON.put("answerId", this.answerId);
-        getAnswerInfoJSON.put("interview", this.interview.getInterviewTitle()); //кладем заголовок опроса
-        getAnswerInfoJSON.put("createDate", date.format(this.createDate)); //кладем дату
-        getAnswerInfoJSON.put("userName", this.userName); //кладем имя ответевшего юзера
+            getAnswerInfoJSON.put("answerId", this.answerId);
+            getAnswerInfoJSON.put("interview", this.interview.getInterviewTitle()); //кладем заголовок опроса
+            getAnswerInfoJSON.put("createDate", date.format(this.createDate)); //кладем дату
+            getAnswerInfoJSON.put("userName", this.userName); //кладем имя ответевшего юзера
 
-        List<ObjectNode> cv_s = new LinkedList<>();
-        for(Check_variant i : this.check_variants) {
-            cv_s.add(i.getCheck_variantInfoJSON());
+            List<ObjectNode> cv_s = new LinkedList<>();
+            for (Check_variant i : this.check_variants) {
+                cv_s.add(i.getCheck_variantInfoJSON());
+            }
+            getAnswerInfoJSON.put("check_variants", Json.toJson(cv_s));
+        } catch (Exception e) {
+            getAnswerInfoJSON.put("Error", e.getMessage());
         }
-        getAnswerInfoJSON.put("check_variants", Json.toJson(cv_s));
 
         return getAnswerInfoJSON;
     }

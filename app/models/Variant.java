@@ -65,8 +65,12 @@ public class Variant extends Model {
 
     public ObjectNode getVariantCountersJSON() {
         ObjectNode getVariantCountersJSON = Json.newObject();
-        getVariantCountersJSON.put("label", this.variant);
-        getVariantCountersJSON.put("value", this.check_variants.size());
+        try {
+            getVariantCountersJSON.put("label", this.variant);
+            getVariantCountersJSON.put("value", this.check_variants.size());
+        } catch (Exception e) {
+            getVariantCountersJSON.put("Error", e.getMessage());
+        }
         return getVariantCountersJSON;
     }
 

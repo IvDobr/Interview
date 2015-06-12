@@ -82,12 +82,16 @@ public class Check_variant extends Model {
     public ObjectNode getCheck_variantInfoJSON() {
         ObjectNode getCheck_variantInfoJSON = Json.newObject();
 
-        if (null == variant){
-            getCheck_variantInfoJSON.put("question", this.parentQuestion.getQuestionTitle()); //Кладем вопрос
-            getCheck_variantInfoJSON.put("answer", userVar); //Кладем ответ на вопрос
-        } else {
-            getCheck_variantInfoJSON.put("question", this.variant.getVariantParent().getQuestionTitle()); //Кладем вопрос
-            getCheck_variantInfoJSON.put("answer", this.variant.getVariant()); //Кладем ответ на вопрос
+        try {
+            if (null == variant) {
+                getCheck_variantInfoJSON.put("question", this.parentQuestion.getQuestionTitle()); //Кладем вопрос
+                getCheck_variantInfoJSON.put("answer", userVar); //Кладем ответ на вопрос
+            } else {
+                getCheck_variantInfoJSON.put("question", this.variant.getVariantParent().getQuestionTitle()); //Кладем вопрос
+                getCheck_variantInfoJSON.put("answer", this.variant.getVariant()); //Кладем ответ на вопрос
+            }
+        } catch (Exception e) {
+            getCheck_variantInfoJSON.put("Error", e.getMessage());
         }
         return getCheck_variantInfoJSON;
     }
